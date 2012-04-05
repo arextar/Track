@@ -6,8 +6,7 @@ track.methods.history = {
       }, false);
       history.state && track.go(history.state, false);
     },
-    set: function history_set(url){
-        console.log(url);
-      history.pushState(url, "", url);
+    set: function history_set(path){
+      history.pushState(path, "", path);
     }
   }

@@ -16,8 +16,8 @@
         }, 20)
       }
     },
-    set: function hash_set (url){
-      location.hash = url
+    set: function hash_set (path){
+      location.hash = path
     }
   }
 })(location);
