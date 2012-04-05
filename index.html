@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Track : Simple and powerful routing in JavaScript (Beta)" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Track</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/arexkun/Track">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Track</h1>
+          <h2 id="project_tagline">Simple and powerful routing in JavaScript (Beta)</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/arexkun/Track/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/arexkun/Track/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Track</h1>
+
+<p>Simple but powerful routing in JavaScript</p>
+
+<h2>API</h2>
+
+<h3>.<strong>init</strong>(<em>string</em> methods...)</h3>
+
+<p>Initiates track choosing the first supported method in the list. Call this <strong>after</strong> binding callbacks with .on</p>
+
+<div class="highlight">
+<pre><span class="c1">// Use HTML5 history API, falling back to hash when not available</span>
+<span class="nx">track</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="s1">'history'</span><span class="p">,</span> <span class="s1">'hash'</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h3>.<strong>on</strong>(<em>string</em> path, <em>function</em> callback(<em>string</em> path))</h3>
+
+<p>Binds callback to a given path. See the 'Routing' section below for more details on how the paths are formatted.</p>
+
+<div class="highlight">
+<pre><span class="c1">// When a path such as "/user/12" is triggered, show an alert</span>
+<span class="nx">track</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'/user/:id'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="s2">"Welcome to user #"</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">id</span> <span class="o">+</span> <span class="s2">"'s profile!"</span><span class="p">)</span>
+<span class="p">})</span>
+</pre>
+</div>
+
+
+<h3>.<strong>go</strong>(<em>string</em> path)</h3>
+
+<p>Triggers callbacks for and takes the action defined by the current method (such as setting the hash) for the given path.</p>
+
+<div class="highlight">
+<pre><span class="c1">// Triggers any callbacks associated with the path (if hash or history methods are present, the url is set for example).</span>
+<span class="nx">track</span><span class="p">.</span><span class="nx">go</span><span class="p">(</span><span class="s1">'/user/12'</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h3>.<strong>clean</strong>(<em>string</em> path)</h3>
+
+<p>Normalizes the path by putting a '/' at the start and end (used internally)</p>
+
+<h2>Routing</h2>
+
+<p>Use <code>:word</code> to indicate a wild-card. Use <code>this.word</code> to access in callbacks.</p>
+
+<ul>
+<li>
+<code>user/:id</code> triggers on:
+
+<ul>
+<li>user/12</li>
+<li>user/abc</li>
+</ul>
+</li>
+<li>
+<code>:action/user/:id</code> triggers on:
+
+<ul>
+<li>friend/user/1</li>
+<li>poke/user/foobar</li>
+</ul>
+</li>
+</ul><p>Use <code>:word?</code> for optional wild-cards. Use <code>this.word</code> to access in callbacks (undefined if not present).</p>
+
+<ul>
+<li>
+<code>user/:id/:edit?</code> triggers on:
+
+<ul>
+<li><code>user/foo</code></li>
+<li><code>user/foo/e</code></li>
+</ul>
+</li>
+</ul><p>Use <code>{regexp}</code> for custom regular expressions in routes. Use <code>this[index]</code> to access in callbacks where index is the index of the custom regular expression (0 if it's first, 1 if it's second, etc.)</p>
+
+<ul>
+<li>
+<code>user/{\\d+}</code> triggers on:
+
+<ul>
+<li><code>user/6</code></li>
+<li><code>user/123</code></li>
+</ul>
+</li>
+<li>
+<code>user/:id/{edit}?</code> triggers on:
+
+<ul>
+<li><code>user/12/edit</code></li>
+<li><code>user/foobar/edit</code></li>
+</ul>
+</li>
+</ul><h2>Methods</h2>
+
+<h3>basic</h3>
+
+<p>Holds current state in memory. Nothing more.</p>
+
+<h3>hash</h3>
+
+<p>Gets, sets, and monitors the URL hash.</p>
+
+<h3>history</h3>
+
+<p>Uses the html5 history API.</p>
+
+<h3>persist</h3>
+
+<p>Uses localStorage and userData to save the current path.</p>
+
+<h2>Adding new methods</h2>
+
+<div class="highlight">
+<pre>
+<span class="nx">track</span><span class="p">.</span><span class="nx">methods</span><span class="p">.</span><span class="nx">method_name</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">detect</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span><span class="cm">/*Return treu if supported, false otherwise*/</span><span class="p">},</span>
+    <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span><span class="cm">/*Initiate by binding any events and triggering the first path*/</span><span class="p">},</span>
+    <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span><span class="cm">/*Set the path (e.g.: setting location.hash)*/</span><span class="p">}</span>
+<span class="p">}</span>
+
+</pre>
+</div>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Track maintained by <a href="https://github.com/arexkun">arexkun</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
