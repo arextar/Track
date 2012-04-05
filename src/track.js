@@ -38,18 +38,19 @@
     },
 
     on: function on (page, fn) {
-      if (!/:\w+/.test(page = clean(page))) {
+      if (!/:\w+|\{/.test(page = clean(page))) {
         stat[page] = fn;
       }
       else
       {
         var words = []
-          , len = 0;
-        page = page.replace(/:(\w+)(\??)\/?/g, function replace_word (_, word, optional){
-          words[len++] = word;
-          return "(?:[^/]+)" + optional + "\/" + optional;
-        });
-        
+          , len = 0
+          , i = 0
+        page = "^" + page.replace(/(?::(\w+)|\{([^\}]+)\})(\??)\/?/g, function replace_word (_, word, regex, optional){
+          words[len++] = word || i++;
+          return "(?:" + (word ? "[^/]+" : regex) + ")" + optional + "\/" + optional;
+        }) + "$";
+
         tests[tests_len] = RegExp(page);
         var ext = RegExp(page.split("(?:").join("("));
         extract[tests_len] = function extract_data (str){
