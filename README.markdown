@@ -71,3 +71,16 @@ Uses the html5 history API.
 
 ### persist
 Uses localStorage and userData to save the current path.
+
+
+## Adding new methods
+
+````js
+
+track.methods.method_name = {
+    detect: function () {/*Return treu if supported, false otherwise*/},
+    init: function () {/*Initiate by binding any events and triggering the first path*/},
+    set: function (path) {/*Set the path (e.g.: setting location.hash)*/}
+}
+
+````
