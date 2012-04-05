@@ -57,3 +57,17 @@ Use `{regexp}` for custom regular expressions in routes. Use `this[index]` to ac
 * `user/:id/{edit}?` triggers on:
  * `user/12/edit`
  * `user/foobar/edit`
+
+
+## Methods
+### basic
+Holds current state in memory. Nothing more.
+
+### hash
+Gets, sets, and monitors the URL hash.
+
+### history
+Uses the html5 history API.
+
+### persist
+Uses localStorage and userData to save the current path.
