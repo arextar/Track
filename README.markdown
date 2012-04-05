@@ -34,7 +34,7 @@ Normalizes the path by putting a '/' at the start and end (used internally)
 
 
 ## Routing
-Use `:word` to indicate a wild-card.
+Use `:word` to indicate a wild-card. Use `this.word` to access in callbacks.
 
 * `user/:id` triggers on:
  * user/12
@@ -43,8 +43,17 @@ Use `:word` to indicate a wild-card.
  * friend/user/1
  * poke/user/foobar
 
-Use `:word?` for optional wild-cards.
+Use `:word?` for optional wild-cards. Use `this.word` to access in callbacks (undefined if not present).
 
 * `user/:id/:edit?` triggers on:
  * `user/foo`
  * `user/foo/e`
+
+Use `{regexp}` for custom regular expressions in routes. Use `this[index]` to access in callbacks where index is the index of the custom regular expression (0 if it's first, 1 if it's second, etc.)
+
+* `user/{\\d+}` triggers on:
+ * `user/6`
+ * `user/123`
+* `user/:id/{edit}?` triggers on:
+ * `user/12/edit`
+ * `user/foobar/edit`
