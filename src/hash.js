@@ -1,4 +1,5 @@
 ;(function(location){
+  "use strict";
   track.methods.hash = {
     detect: function hash_detect () {return 'hash' in location},
     init: function hash_init () {

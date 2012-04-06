@@ -24,7 +24,7 @@
       page = clean(page)
 
       // Don't trigger the change if `change` is `false`. This prevents some nasty loops if triggering that will acuse this function to run
-      change === false || method.set(page)
+      if (change !== false) method.set(page)
 
       if (page in stat) {
         stat[page].call({}, page)
@@ -51,8 +51,8 @@
           return "(?:" + (word ? "[^/]+" : regex) + ")" + optional + "\/" + optional;
         }) + "$";
 
-        tests[tests_len] = RegExp(page);
-        var ext = RegExp(page.split("(?:").join("("));
+        tests[tests_len] = new RegExp(page);
+        var ext = new RegExp(page.split("(?:").join("("));
         extract[tests_len] = function extract_data (str){
           str = ext.exec(str);
           for(var obj = {}, i = 0; i < len; i++) obj[words[i]] = str[i + 1];
@@ -76,4 +76,4 @@
   function clean (url) {
     return url.replace(/^\/*|\/*$/g, '/').replace(/\/+/g, "/");
   }
-})(window);
+})(typeof module == "undefined" ? window : module.exports);
