@@ -21,6 +21,14 @@ track.on('/user/:id', function(){
 })
 ````
 
+### .**off**(*string* path)
+Removes a callback bound to a given path. See the 'Routing' section below for more details on how the paths are formatted.
+
+````js
+// Remove the callback associated with `/user/:id`
+track.off('/user/:id')
+````
+
 ### .**go**(*string* path)
 Triggers callbacks for and takes the action defined by the current method (such as setting the hash) for the given path.
 
