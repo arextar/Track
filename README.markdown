@@ -84,3 +84,9 @@ track.methods.method_name = {
 }
 
 ````
+
+
+## Todo:
+
+* Allow setting of a catch-all function that is called when a url doesn't match anything
+* See about implementing .on and .off in a more efficient way (splicing makes me nervous)
