@@ -7,6 +7,8 @@
     , tests_len = 0
     , extract = []
     , callbacks = []
+    , pages = []
+    , indexOf = [].indexOf || function(v){for(var i in this)if(this[i]===v&&~~i==i)return~~i;return-1}
     , track = window.track = {
   init: function init (){
     for (var i = 0, m; m = arguments[i++];) {
@@ -43,6 +45,7 @@
       }
       else
       {
+        pages[tests_len] = page;
         var words = []
           , len = 0
           , i = 0
@@ -62,6 +65,20 @@
       }
     },
 
+    off: function off (page) {
+      if (!/:\w+|\{/.test(page = clean(page))) {
+        delete stat[page];
+      }
+      else
+      {
+        var index = indexOf.call(pages, page);
+        tests_len--;
+        pages.splice(index, 1);
+        tests.splice(index, 1);
+        extract.splice(index, 1);
+        callbacks.splice(index, 1);
+      }
+    },
 
 
     methods: methods = {
