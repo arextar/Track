@@ -96,7 +96,9 @@ track.methods.method_name = {
 
 ## Todo:
 
-* Allow setting of a catch-all function that is called when a url doesn't match anything
+* Allow setting of a catch-all function that is called when a page doesn't match anything
+
+## <a name=license></a> License
 
 The MIT License (MIT)
 Copyright (c) 2012 Alex Wilson (@arextar)
